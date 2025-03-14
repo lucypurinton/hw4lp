@@ -1,34 +1,36 @@
 <h1>New Entry</h1>
 
-<%if session[:user_id] %>
+<% if session[:user_id] %>
 
-<form action="/entries" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="place_id" value="<%= params["place_id"] %>">
+  <form action="/entries" method="post" enctype="multipart/form-data">
+    <%= csrf_meta_tags %>  <!-- ✅ CSRF protection -->
 
-  <p>
-    <label for="title_input">Title</label>
-    <input type="text" name="title" id="title_input">
-  </p>
+    <input type="hidden" name="place_id" value="<%= params["place_id"] %>">
 
-  <p>
-    <label for="description_input">Description</label>
-    <textarea name="description" id="description_input" </textarea>
-  </p>
+    <p>
+      <label for="title_input">Title</label>
+      <input type="text" name="title" id="title_input" required>
+    </p>
 
-  <p>
-    <label for="occurred_on_input">Occurred On</label>
-    <input type="date" name="occurred_on" id="occurred_on_input">
-  </p>
+    <p>
+      <label for="description_input">Description</label>
+      <textarea name="description" id="description_input"></textarea>  <!-- ✅ Fixed closing tag -->
+    </p>
 
-  <p>
-    <label for="uploaded_image_input" class="form-label">Upload Image</label>
-    <input type="file" name="uploaded_image" id="uploaded_image_input" class="form-control">
-  </p>
-  <button class = "btn btn-primary"> Save </button>
-  <a href=/places">Cancel</a>
+    <p>
+      <label for="occurred_on_input">Occurred On</label>
+      <input type="date" name="occurred_on" id="occurred_on_input">
+    </p>
+
+    <p>
+      <label for="uploaded_image_input" class="form-label">Upload Image</label>
+      <input type="file" name="uploaded_image" id="uploaded_image_input" class="form-control" accept="image/png, image/jpg, image/jpeg, image/gif">
+    </p>
+
+    <button class="btn btn-primary">Save</button>
+    <a href="/places" class="btn btn-secondary">Cancel</a>  <!-- ✅ Fixed Cancel button -->
   </form>
 
-  <%else%>
-    You must first <a href="/login">login</a> to post.
-  <button>Save</button>
-  <%end%>
+<% else %>
+  <p>You must first <a href="/login">login</a> to post.</p>
+<% end %>
