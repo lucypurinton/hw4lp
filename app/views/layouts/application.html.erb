@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Tacostagram Final</title>
+    <title>Places Final</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -15,10 +15,17 @@
     </div>
     <div>
       <a href="/">Home</a>
-      <a href="/logout">Logout</a>
-      <a href="/login">Login</a>
-      <a href="/users/new">Signup</a>
-    </div>
+
+      <% if session[:user_id] %>
+      <% user = User.find_by(id: session[:user_id]) %>  
+      <% if user %>
+        <li class="nav-text">Logged in as: <%= user.username %></li>
+        <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+      <% end %>
+    <% else %>
+      <li class="nav-item"><a href="/users/new" class="nav-link">Sign Up</a></li>
+      <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+    <% end %>
 
     <%= yield %>
   </body>
