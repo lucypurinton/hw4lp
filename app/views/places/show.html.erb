@@ -1,33 +1,27 @@
 <h1><%= @place["name"] %></h1>
 
 <h2>My Entries</h2>
-<% for entry in @entries %>
-<%user = User.find_by({"id" => entry["user_id"]}) %>
-<div class="col-sm-6 col-md-3">
-  <h4>
-    <% if user%>
-      <%= user["username"]%>
-    <%else%>
-      anonymous
-    <%end%>
-  </h4>
-
-  <h3><%= entry["title"] %></h3>
-  <h4><%= entry["occurred_on"] %></h4>
-
-  <% if entry.uploaded_image.attached?%>
-        <img src="<%= url_for(entry.uploaded_image) %>" class="img-fluid">
-    <%end%>
-
-  <p><%= entry["description"] %></p>
-  </div>
-<% end %>
+<div class="row">
+  <% @entries.each do |entry| %>
+    <div class="col-md-4 col-sm-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title"><%= entry["title"] %></h5>
+          <p class="card-text"><%= entry["description"] %></p>
+          <p class="text-muted"><%= entry["occurred_on"] %></p>
+          <% if entry.uploaded_image.attached? %>
+            <img src="<%= url_for(entry.uploaded_image) %>" class="img-fluid rounded">
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
 
 <p>
-  <a href="/entries/new?place_id=<%= @place["id"] %>">New Entry</a>
+  <a href="/entries/new?place_id=<%= @place["id"] %>" class="btn btn-primary">New Entry</a>
 </p>
 
 <p>
-  <a href="/places">Back to All Places</a>
+  <a href="/places" class="btn btn-secondary">Back to All Places</a>
 </p>
